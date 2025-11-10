@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>PDF Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ✅ PDF.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #f9f5ef;
+      font-family: sans-serif;
+    }
+    #loader {
+      text-align: center;
+      padding: 1rem;
+      font-size: 18px;
+      font-weight: bold;
+      color: #8b6f47;
+    }
+    #pdf-container {
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      background: #f9f5ef;
+    }
+    canvas {
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader">Loading PDF…</div>
+  <div id="pdf-container"></div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const fileUrl = params.get("url");
+
+  const loader = document.getElementById("loader");
+  const container = document.getElementById("pdf-container");
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.js";
+
+  async function loadPDF() {
+    try {
+      loader.innerText = "Downloading PDF…";
+
+      // ✅ Download Supabase file into ArrayBuffer
+      const res = await fetch(fileUrl);
+      const buffer = await res.arrayBuffer();
+
+      loader.innerText = "Rendering PDF…";
+
+      // ✅ Load PDF.js from buffer
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+      loader.style.display = "none";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.25 });
+
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const ctx = canvas.getContext("2d");
+
+        container.appendChild(canvas);
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+      }
+    } catch (err) {
+      console.error(err);
+      loader.innerText = "Failed to load PDF!";
+    }
+  }
+
+  loadPDF();
+</script>
+</body>
+</html>

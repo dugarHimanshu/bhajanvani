@@ -1,0 +1,22 @@
+[
+  {
+    "id": "l1",
+    "title": "Imagine",
+    "artist": "John Lennon",
+    "contentType": "text",
+    "content": "Imagine all the people...\nYou may say I'm a dreamer, but I'm not the only one.",
+    "fileName": "",
+    "createdAt": "2025-11-10T19:16:04.627Z",
+    "updatedAt": "2025-11-10T19:16:04.627Z"
+  },
+  {
+    "id": "sample-text",
+    "title": "Sample Lyrics",
+    "artist": "Unknown",
+    "contentType": "text",
+    "content": "This is a sample lyric. Edit or add new entries.",
+    "fileName": "",
+    "createdAt": "2025-11-10T19:16:04.627Z",
+    "updatedAt": "2025-11-10T19:16:04.627Z"
+  }
+]

@@ -1,0 +1,91 @@
+<script>
+  // ✅ Get ?file=<blobURL>
+  const urlParams = new URLSearchParams(window.location.search);
+  const pdfUrl = urlParams.get("file");
+
+  const loader = document.getElementById("loader");
+  const container = document.getElementById("pdf-container");
+
+  if (!pdfUrl) {
+    loader.innerText = "No PDF file provided!";
+  }
+
+  // ✅ Configure worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.js";
+
+  async function loadPDF() {
+    try {
+      loader.innerText = "Fetching PDF…";
+
+      // ✅ Fetch the blob URL (WORKS on iPhone & Android)
+      const response = await fetch(pdfUrl);
+
+      const buffer = await response.arrayBuffer();
+
+      loader.innerText = "Rendering PDF…";
+
+      // ✅ Load PDF from ArrayBuffer (recommended way)
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+      loader.style.display = "none";
+
+      // ✅ Render each page
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+
+        const viewport = page.getViewport({ scale: 1.35 });
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        container.appendChild(canvas);
+
+        await page.render({
+          canvasContext: ctx,
+          viewport: viewport
+        }).promise;
+      }
+    } catch (err) {
+      loader.innerText = "Failed to load PDF!";
+      console.error("PDF load error:", err);
+    }
+  }
+
+  loadPDF();
+</script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+  }
+
+  #loader {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #555;
+  }
+
+  #pdf-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  canvas {
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+  } 
+</style>
+<div id="loader">Loading PDF...</div>
+<div id="pdf-container"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf
+.min.js"></script>
+<!-- ✅ Custom PDF.js viewer for blob URLs -->
