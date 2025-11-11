@@ -1,3 +1,8 @@
 git add .
 git commit -m "Fix base path for GitHub Pages"
 git push
+
+
+delte old build
+Remove-Item -Recurse -Force .svelte-kit
+Remove-Item -Recurse -Force build

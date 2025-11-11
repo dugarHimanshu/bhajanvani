@@ -1,3 +1,4 @@
+<!--src\routes\+layout.svelte-->
 <script lang="ts">
   import { base } from "$app/paths";
 </script>

@@ -1,3 +1,4 @@
+//src\routes\api\lyrics\+server.ts
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import type { Lyric } from '$lib/types';

@@ -1,3 +1,4 @@
+//src\routes\api\lyrics\upload\+server.ts
 import type { RequestHandler } from '@sveltejs/kit';
 import { json, error } from '@sveltejs/kit';
 import fs from 'fs';

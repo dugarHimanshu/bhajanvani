@@ -1,3 +1,4 @@
+<!--src\routes\lyrics\create\+page.svelte-->
 <script lang="ts">
   import LyricsEditor from "$lib/components/LyricsEditor.svelte";
   import { saveLyric } from "$lib/stores/lyricsStore";

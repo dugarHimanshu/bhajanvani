@@ -1,3 +1,4 @@
+<!--E:\Coding\Private\Bhajan\lyrics-hub\src\lib\components\LyricsEditor.svelte-->
 <script lang="ts">
   import type { Lyric } from "../types";
   import { PDFDocument } from "pdf-lib";

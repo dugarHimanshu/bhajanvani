@@ -1,6 +1,16 @@
 <!-- src/lib/components/ContentViewer.svelte -->
 <script lang="ts">
   import type { Lyric } from "../types";
+  let pdfjsLib = null;
+  let pdfWorker = null;
+  import { onMount } from 'svelte';
+
+  onMount(async () => {
+    pdfjsLib = await import("pdfjs-dist/legacy/build/pdf");
+    pdfWorker = (await import("pdfjs-dist/legacy/build/pdf.worker.min?url"))
+      .default;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+  });
 
   export let lyric: Lyric;
 
@@ -16,18 +26,13 @@
     ? Math.round((lyric.content.length * 3) / 4 / 1024)
     : 0;
 
-  /* ✅ PDF.js IMPORTS */
-  //@ts-ignore
+  /*--------------✅PDF.js IMPORTS----------- */
   globalThis.DOMMatrix = globalThis.DOMMatrix || window.DOMMatrix;
-  //@ts-ignore
   globalThis.Path2D = globalThis.Path2D || window.Path2D;
-
-  import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
-  import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker.min?url";
 
   pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
-  // ✅ Safe PDF loader — no TypeScript errors
+  //------------✅Safe PDF loader — no TypeScript errors
   async function renderPDF(url?: string) {
     const container = document.getElementById("pdf-container");
     if (!container) return;
@@ -130,7 +135,6 @@
     overflow-y: auto;
   }
 
-  /* ✅ TEXT */
   .text-content {
     white-space: pre-wrap;
     background: #fffbf5;
@@ -143,7 +147,6 @@
     color: #5d4e37;
   }
 
-  /* ✅ IMAGES */
   .image-content {
     max-width: 100%;
     height: auto;

@@ -11,9 +11,8 @@ export default {
       base: dev ? '' : '/bhajanvani'
     },
     prerender: {
-      handleHttpError: 'ignore',
       handleMissingId: 'ignore',
-      entries: [] // ✅ Do NOT prerender anything
+      handleUnseenRoutes: 'ignore'
     }
   }
 };

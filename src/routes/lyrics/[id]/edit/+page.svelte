@@ -1,3 +1,4 @@
+<!--src\routes\lyrics\[id]\edit\+page.svelte-->
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { page } from "$app/stores";
