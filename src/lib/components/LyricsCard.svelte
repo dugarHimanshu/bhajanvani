@@ -1,4 +1,3 @@
-<!-- src/lib/components/LyricsCard.svelte -->
 <script lang="ts">
   import type { Lyric } from "../types";
 
@@ -9,7 +8,6 @@
 </script>
 
 <article class="card">
-
   <!-- ✅ Entire top area is now a clickable button -->
   <button class="card-click" type="button" on:click={() => onOpen(lyric)}>
     <div class="card-header">
@@ -33,22 +31,26 @@
       {#if lyric.contentType === "pdf" || lyric.contentType === "image"}
         <p class="snippet">{lyric.fileName ?? "Uploaded content"}</p>
 
-        {#if lyric.thumbnailUrl}
-          <img src={lyric.thumbnailUrl} alt="thumbnail" class="card-image" loading="lazy" />
-        {:else if lyric.content}
-          <img src={lyric.content} alt="preview" class="card-image" loading="lazy" />
-        {/if}
+        {:else if lyric.thumbnailUrl && lyric.thumbnailUrl !== "none"}
+          <img src={lyric.thumbnailUrl} alt="thumbnail" />
+        {:else if lyric.content && lyric.content !== "" && lyric.content !== "none"}
+          <img src={lyric.content} alt="preview" />
       {/if}
     </div>
   </button>
 
   <!-- ✅ Footer buttons still independent -->
   <div class="card-actions">
-    <button class="btn-action btn-open" on:click={() => onOpen(lyric)}>Open</button>
-    <button class="btn-action btn-edit" on:click={() => onEdit(lyric)}>Edit</button>
-    <button class="btn-action btn-delete" on:click={() => onDelete(lyric)}>Delete</button>
+    <button class="btn-action btn-open" on:click={() => onOpen(lyric)}
+      >Open</button
+    >
+    <button class="btn-action btn-edit" on:click={() => onEdit(lyric)}
+      >Edit</button
+    >
+    <button class="btn-action btn-delete" on:click={() => onDelete(lyric)}
+      >Delete</button
+    >
   </div>
-
 </article>
 
 <style>
@@ -131,13 +133,6 @@
     line-height: 1.5;
   }
 
-  .card-image {
-    max-width: 100%;
-    max-height: 150px;
-    border-radius: 4px;
-    border: 1px solid #d4a574;
-  }
-
   .card-actions {
     display: flex;
     gap: 0.4rem;
@@ -158,14 +153,32 @@
     transition: 0.2s;
   }
 
-  .btn-open { border-color: #c39464; color: #8b6f47; }
-  .btn-open:hover { background: #c39464; color: white; }
+  .btn-open {
+    border-color: #c39464;
+    color: #8b6f47;
+  }
+  .btn-open:hover {
+    background: #c39464;
+    color: white;
+  }
 
-  .btn-edit { border-color: #8b6f47; color: #8b6f47; }
-  .btn-edit:hover { background: #8b6f47; color: white; }
+  .btn-edit {
+    border-color: #8b6f47;
+    color: #8b6f47;
+  }
+  .btn-edit:hover {
+    background: #8b6f47;
+    color: white;
+  }
 
-  .btn-delete { border-color: #d9534f; color: #d9534f; }
-  .btn-delete:hover { background: #d9534f; color: white; }
+  .btn-delete {
+    border-color: #d9534f;
+    color: #d9534f;
+  }
+  .btn-delete:hover {
+    background: #d9534f;
+    color: white;
+  }
 
   @media (max-width: 480px) {
     .card-actions {
