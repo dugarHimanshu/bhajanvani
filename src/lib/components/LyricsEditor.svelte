@@ -2,7 +2,8 @@
 <script lang="ts">
   import type { Lyric } from "../types";
   import { PDFDocument } from "pdf-lib";
-  import { createClient } from "@supabase/supabase-js";
+  import { supabase } from '$lib/supabaseClient';
+
 
   export let lyric: Lyric | null;
   export let onSave: (l: Lyric) => void;
@@ -17,7 +18,6 @@
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
   const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   const STORAGE_BUCKET = "lyrics";
 
   let selectedFile: File | null = null;
