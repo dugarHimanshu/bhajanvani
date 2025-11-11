@@ -1,6 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 
-const dev = process.argv.includes('dev');
+const dev = process.env.NODE_ENV === 'development';
 
 export default {
   kit: {
@@ -11,8 +11,9 @@ export default {
       base: dev ? '' : '/bhajanvani'
     },
     prerender: {
-      entries: ['*'],
-      handleHttpError: 'ignore'
+      handleHttpError: 'ignore',
+      handleMissingId: 'ignore',
+      entries: [] // ✅ Do NOT prerender anything
     }
   }
 };

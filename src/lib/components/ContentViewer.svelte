@@ -17,6 +17,11 @@
     : 0;
 
   /* ✅ PDF.js IMPORTS */
+  //@ts-ignore
+  globalThis.DOMMatrix = globalThis.DOMMatrix || window.DOMMatrix;
+  //@ts-ignore
+  globalThis.Path2D = globalThis.Path2D || window.Path2D;
+
   import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf";
   import pdfWorker from "pdfjs-dist/legacy/build/pdf.worker.min?url";
 
@@ -57,7 +62,7 @@
 
         await page.render({
           canvasContext: ctx,
-          viewport
+          viewport,
         }).promise;
 
         container.appendChild(canvas);
