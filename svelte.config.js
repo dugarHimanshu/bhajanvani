@@ -1,3 +1,4 @@
+// svelte.config.js
 import adapter from '@sveltejs/adapter-static';
 
 const dev = process.env.NODE_ENV === 'development';
@@ -5,14 +6,17 @@ const dev = process.env.NODE_ENV === 'development';
 export default {
   kit: {
     adapter: adapter({
-      fallback: 'index.html'
+      fallback: '404.html'
     }),
+
     paths: {
       base: dev ? '' : '/bhajanvani'
     },
-    prerender: {
-      handleMissingId: 'ignore',
-      handleUnseenRoutes: 'ignore'
+
+    alias: {
+      $lib: 'src/lib',
+      $components: 'src/lib/components',
+      $stores: 'src/lib/stores'
     }
   }
 };
