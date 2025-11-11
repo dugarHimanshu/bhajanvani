@@ -1,19 +1,18 @@
 import adapter from '@sveltejs/adapter-static';
 
-const dev = process.argv.includes('dev');
+const dev = process.env.NODE_ENV === 'development';
 
 export default {
   kit: {
     adapter: adapter({
-      fallback: 'index.html' // ✅ Needed for dynamic routes
+      fallback: '404.html'
     }),
     paths: {
-      base: dev ? '' : '/bhajanvani' // ✅ Correct for GitHub Pages repo
+      base: dev ? '' : '/bhajanvani'
     },
     prerender: {
-      crawl: true,
       entries: ['*'],
-      handleMissingId: 'warn'   // ✅ IMPORTANT: prevents dynamic-route build failures
+      handleMissingId: 'warn'
     }
   }
 };
