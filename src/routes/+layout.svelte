@@ -1,5 +1,7 @@
 <script lang="ts">
-  // Simple layout with a header
+  export const prerender = true;
+  export const trailingSlash = 'always';
+
 </script>
 
 <header class="site-header" style="justify-content: center;">
